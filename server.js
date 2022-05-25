@@ -357,7 +357,7 @@ io.on('connection', (socket) => {
 //sql-connection
 var sqlCon = mysql.createConnection({
 	host: "localhost",
-	host: "mysql_container",
+	host: "mysql",
 	user: "root",
 	password: "291293ek",
 	database: "cc_ex2",
