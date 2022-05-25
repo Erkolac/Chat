@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+	<h1>Register</h1>
+	<form method="POST" enctype="multipart/form-data">
+		{{#if errMsg}}
+        <h3 style="color:red;">{{errMsg}}</h3>
+        {{/if}}
+		<label for="username">Username: </label>
+		<input type="text" id="username" name="username" minlength= "3" maxlength="20" pattern="[A-Za-z]+" required>
+
+		<label for="password">Password: </label>
+		<input type="password" id="password" name="password" minlength= "3" maxlength="25" pattern="[a-zA-Z\d!§?]+" required>
+		<br><br>
+		<label for="profilePic">Profile Picture:</label>
+		<input type="file" id="profilePic" name="profilePic" value="empty" accept="image/*"/>
+		<br><br>
+		<button type="submit">Register</button>
+	</form>
+	<br>
+	<a href="/login">Return To Login</a>
+</body>
+
+</html>

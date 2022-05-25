@@ -1,0 +1,17 @@
+{
+	"ulid": "01G390XYJRHYN60CX3HXTNNJSM",
+	"minTime": 1652737714129,
+	"maxTime": 1652738400000,
+	"stats": {
+		"numSamples": 9517,
+		"numSeries": 1199,
+		"numChunks": 1199
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01G390XYJRHYN60CX3HXTNNJSM"
+		]
+	},
+	"version": 1
+}

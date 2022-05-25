@@ -1,0 +1,24 @@
+#CREATE DATABASE cc_ex2;
+#ALTER SESSION SET NLS_DATE_FORMAT = 'YYYY-MM-DD';
+USE cc_ex2;
+
+#DROP TABLE Message;
+#DROP TABLE User;
+
+CREATE TABLE User(
+userId INT AUTO_INCREMENT,
+username VARCHAR(20),
+userPassword VARCHAR(100),
+profilePic VARCHAR(70),
+PRIMARY KEY(userId)
+);
+
+CREATE TABLE Message(
+msgId INT AUTO_INCREMENT,
+msgSender INT,
+msgRecipient INT,
+msgDate DATETIME,
+msg VARCHAR(6000),
+PRIMARY KEY(msgId),
+FOREIGN KEY(msgSender) REFERENCES User(userId)
+);

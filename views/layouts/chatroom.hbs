@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset= "UTF-8"/>
+        <title>Chatroom</title>
+        <link rel="stylesheet" href="css/stylesheet.css">
+    </head>
+
+    <body>
+        <ul id="onlineUsers"></ul>
+        <ul id="messages">{{{body}}}</ul>
+
+        <form id="form" action="">
+            <input id="msgInput" autocomplete="off" />
+            <button id="sendButton">Send to</button>
+            <select id="recSelect"multiple>
+                <option value="" selected>Everyone</option>
+            </select>
+            <label for="fileInput" id="fileInputLabel">Upload a file <br> Max Size: 5MB</label>
+            <input id="fileInput" type="file" accept="image/*, video/*, audio/*"/>
+        </form>
+
+        <!--
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js" 
+        integrity="sha512-aTKlYRb1QfU1jlF3k+aS4AqTpnTXci4R79mkdie/bp6Xm51O5O3ESAYhvg6zoicj/PD6VYY0XrYwsWLcvGiKZQ==" 
+        crossorigin="anonymous" 
+        referrerpolicy="no-referrer"></script>
+        -->
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+</html>

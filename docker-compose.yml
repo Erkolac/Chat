@@ -1,0 +1,97 @@
+version: "3.8"
+
+services:
+
+  mysql_server:
+    container_name: mysql_container
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always 
+    environment:
+      MYSQL_DATABASE: cc_ex2
+      MYSQL_ROOT_PASSWORD: 291293ek
+      MYSQL_ALLOW_EMPTY_PASSWORD: ok
+    volumes:
+      - ./init_mysql:/docker-entrypoint-initdb.d
+
+  web1: 
+    container_name: web1
+    build:
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - .:/app
+      - '/app/node_modules'
+    links:
+      - mysql_server
+      - redis
+    depends_on:
+      - mysql_server
+      - redis
+    restart: on-failure
+  web2: 
+    container_name: web2
+    build:
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - .:/app
+      - '/app/node_modules'
+    links:
+      - mysql_server
+      - redis
+    depends_on:
+      - mysql_server
+      - redis
+    restart: on-failure
+  web3: 
+    container_name: web3
+    build:
+      context: .
+      dockerfile: dockerfile
+    volumes:
+      - .:/app
+      - '/app/node_modules'
+    links:
+      - mysql_server
+      - redis
+    depends_on:
+      - mysql_server
+      - redis
+    restart: on-failure
+
+  node_exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    command:
+      - '--path.rootfs=/host'
+    pid: host
+    restart: unless-stopped
+    volumes:
+      - '/:/host:ro,rslave'
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./config:/prometheus
+      - ./data/prometheus:/data
+    command:
+      - '--config.file=/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/data'
+    ports:
+      - 9090:9090
+    restart: always
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    links:
+      - web1
+      - web2
+      - web3
+    ports:
+      - "3000:80"
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - '6379:6379'
