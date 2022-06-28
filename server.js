@@ -1,6 +1,8 @@
 const { createAdapter } = require('@socket.io/redis-adapter');
 const { createClient } = require('redis');
 const express = require('express'),
+      	helmet = require("helmet"),
+	CSRFGuard = require("csrf-guard"),
 	fs = require('fs'),
 	fileUpload = require('express-fileupload'),
 	util = require('util'),
@@ -105,6 +107,10 @@ app.use(passport.session());
 app.use(methodOverride("_method"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+// Exercise 5 
+app.use(new CSRFGuard({ secret: "csrf-key" }));
+app.disable("x-powered-by");
+app.use(helmet());
 const hbs = expHbs.create({
 	extname: "hbs",
 	layoutsDir: `${__dirname}/views/layouts`,
@@ -192,7 +198,8 @@ app.get("/", checkNotAuth, (req, res) => {
 	console.log("server")
 })
 
-app.get("/login", checkNotAuth, (req, res) => {
+app.get("/login", checkNotAuth, async(req, res) => {
+	const token = await req.getToken();
 	res.render("empty", { layout: "login" });
 })
 
@@ -206,7 +213,8 @@ app.post("/login", checkNotAuth, passport.authenticate("local", {
 	failureFlash: true
 }));
 
-app.get("/register", checkNotAuth, (req, res) => {
+app.get("/register", checkNotAuth, async(req, res) => {
+	const token = await req.getToken();
 	res.render("empty", { layout: "register" });
 })
 
